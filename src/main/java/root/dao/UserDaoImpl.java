@@ -1,55 +1,47 @@
 package root.dao;
 
-import org.springframework.stereotype.Component;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import root.model.User;
 
-import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Repository
 public class UserDaoImpl implements UserDao {
 
-    private static long COUNTER;
-    private static final List<User> userList;
+    @PersistenceContext
+    private final EntityManager entityManager;
 
-    static {
-        userList = new ArrayList<>();
-        userList.add(new User(++COUNTER,"Tom Cooper", 55, "tom@gmail.com"));
-        userList.add(new User(++COUNTER, "Jay Z", 50, "jay@gmail.com"));
-        userList.add(new User(++COUNTER, "Иван Иванов", 30, "ivan@mail.ru"));
-        userList.add(new User(++COUNTER, "Петр Петров", 20, "petr@mail.ru"));
+    @Autowired
+    public UserDaoImpl(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 
     @Override
     public List<User> getUsers() {
-        return userList;
+        return entityManager.createQuery("select u from User u", User.class).getResultList();
     }
 
     @Override
     public User getUserById(Long id) {
-        return userList
-                .stream()
-                .filter(user -> id.equals(user.getId()))
-                .findAny()
-                .orElse(null);
+        return entityManager.find(User.class, id);
     }
 
     @Override
     public void save(User user) {
-        user.setId(++COUNTER);
-        userList.add(user);
+        entityManager.persist(user);
     }
 
     @Override
     public void update(User user) {
-        User old = getUserById(user.getId());
-        old.setName(user.getName());
-        old.setAge(user.getAge());
-        old.setEmail(user.getEmail());
+        entityManager.merge(user);
     }
 
     @Override
     public void delete(Long id) {
-        userList.removeIf(user -> id.equals(user.getId()));
+        entityManager.remove(getUserById(id));
     }
 }

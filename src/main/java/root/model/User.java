@@ -1,25 +1,19 @@
 package root.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "users")
 public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private Integer age;
     private String email;
 
     public User() {}
-
-    public User(String name, Integer age, String email) {
-        this.name = name;
-        this.age = age;
-        this.email = email;
-    }
-
-    public User(Long id, String name, Integer age, String email) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
-        this.email = email;
-    }
 
     public Long getId() {
         return id;
