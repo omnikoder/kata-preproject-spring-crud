@@ -55,12 +55,7 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return "users_edit";
         }
-        try {
-            userService.update(user);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
+        userService.update(user);
         return "redirect:/users";
     }
 
