@@ -11,6 +11,7 @@
 <body>
 
 <h1>Список пользователей</h1>
+
 <table>
     <thead>
         <tr>
@@ -28,17 +29,16 @@
             <td th:text="${user.getAge()}"></td>
             <td th:text="${user.getEmail()}"></td>
             <td>
-                <button type="button">изменить</button>
-                <button type="button">удалить</button>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="5">
-                <a th:href="@{/users/new}"><button type="button">Добавить</button></a>
+                <a th:href="@{/users/edit/{id}(id = ${user.getId()})}"><button type="button">изменить</button></a>
+                <form class="form-delete" th:method="delete" th:action="@{/users/{id}(id = ${user.getId()})}">
+                    <button type="submit">удалить</button>
+                </form>
             </td>
         </tr>
     </tbody>
 </table>
+
+<a th:href="@{/users/new}"><button type="button">Добавить</button></a>
 
 </body>
 </html>

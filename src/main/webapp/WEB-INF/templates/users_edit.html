@@ -4,15 +4,15 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Добавление пользователя</title>
+    <title>Редактирование пользователя</title>
 
     <link rel="stylesheet" th:href="@{/resources/styles.css}">
 </head>
 <body>
 
-<h1>Регистрация пользователя</h1>
+<h1>Редактирование пользователя</h1>
 
-<form th:method="post" th:action="@{/users/new}" th:object="${user}" th:accept-charset="UTF-8">
+<form th:method="patch" th:action="@{'/users/edit/'+ ${user.getId()}}" th:object="${user}" th:accept-charset="UTF-8">
     <label for="name">Имя:</label>
     <input id="name" type="text" th:field="*{name}">
 
@@ -22,7 +22,7 @@
     <label for="email">Email:</label>
     <input id="email" type="text" th:field="*{email}">
 
-    <button type="submit">Регистрация</button>
+    <button type="submit">Сохранить изменения</button>
 </form>
 
 </body>
