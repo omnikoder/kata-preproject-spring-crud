@@ -1,16 +1,31 @@
 package root.model;
 
+import org.hibernate.validator.constraints.UniqueElements;
+
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users"
+//        uniqueConstraints =
+//        @UniqueConstraint(name = "unique_email", columnNames = { "email" })
+)
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Size(min = 2, max = 255, message = "* Длина имени должна быть от 2 до 255 символов")
     private String name;
+
+    @NotNull(message = "* Укажите ваш возраст")
+    @Min(value = 0, message = "* Возраст не может быть меньше 0")
+    @Max(value = 120, message = "* Возраст не может превышать 120")
     private Integer age;
+
+    @NotEmpty(message = "* Введите ваш email")
+    @Email(message = "* Неправильный email-адрес")
     private String email;
 
     public User() {}
