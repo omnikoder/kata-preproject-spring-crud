@@ -2,14 +2,13 @@ package root.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 import root.dao.UserDao;
 import root.model.User;
 
 import java.util.List;
 
 @Service
-@Transactional
 public class UserServiceImpl implements UserService {
 
     private final UserDao userDao;
@@ -42,5 +41,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delete(Long id) {
         userDao.delete(id);
+    }
+
+    @Override
+    public boolean isEmailExisting(String email) {
+        return userDao.isEmailExisting(email);
+    }
+
+    @Override
+    public void validateEmail(String email, BindingResult bindingResult) {
+        userDao.validateEmail(email, bindingResult);
     }
 }

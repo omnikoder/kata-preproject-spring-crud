@@ -36,6 +36,7 @@ public class UserController {
     @PostMapping(path = "/new")
     public String saveUser(@ModelAttribute(name = "user") @Valid User user,
                            BindingResult bindingResult) {
+        userService.validateEmail(user.getEmail(), bindingResult);
         if (bindingResult.hasErrors()) {
             return "users_new";
         }
@@ -52,6 +53,7 @@ public class UserController {
     @PatchMapping(path = "/edit/{id}")
     public String editUser(@ModelAttribute(name = "user") @Valid User user,
                            BindingResult bindingResult) {
+        userService.validateEmail(user.getEmail(), bindingResult);
         if (bindingResult.hasErrors()) {
             return "users_edit";
         }

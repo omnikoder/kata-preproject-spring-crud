@@ -4,9 +4,9 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 @Entity
-@Table(name = "users"
-//        uniqueConstraints =
-//        @UniqueConstraint(name = "unique_email", columnNames = { "email" })
+@Table(name = "users",
+        uniqueConstraints =
+        @UniqueConstraint(name = "email", columnNames = { "email" })
 )
 public class User {
 
