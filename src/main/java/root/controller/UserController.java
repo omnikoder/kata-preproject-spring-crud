@@ -53,7 +53,12 @@ public class UserController {
     @PatchMapping(path = "/edit/{id}")
     public String editUser(@ModelAttribute(name = "user") @Valid User user,
                            BindingResult bindingResult) {
-        userService.validateEmail(user.getEmail(), bindingResult);
+        if (!userService
+                .getUserById(user.getId())
+                .getEmail()
+                .equals(user.getEmail())) {
+            userService.validateEmail(user.getEmail(), bindingResult);
+        }
         if (bindingResult.hasErrors()) {
             return "users_edit";
         }
